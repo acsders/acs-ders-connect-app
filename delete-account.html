@@ -1,37 +1,296 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Account Deletion | ACS DERS CONNECT</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#040D1C">
+<meta name="robots" content="index, follow">
+<title>Delete Account | ACS DERS Campus</title>
+<meta name="description" content="How students, parents and staff can request deletion of an ACS DERS CONNECT account and personal data.">
 <style>
-body{font-family:Arial,sans-serif;line-height:1.7;background:#f4f6f8;color:#20252d;margin:0;padding:24px}
-main{max-width:760px;margin:40px auto;background:#fff;padding:32px;border-radius:16px}
-h1,h2{color:#163c35;line-height:1.3}
-a{color:#176b57;overflow-wrap:anywhere}
-footer{margin-top:28px;border-top:1px solid #ddd;padding-top:16px}
-@media(max-width:520px){body{padding:12px}main{margin:12px auto;padding:22px}}
+  :root{
+    --bg:#040D1C; --surface:#0B1A33; --surface-2:#10264A;
+    --border:rgba(255,255,255,.12); --text:#EAF0FA; --muted:#A9B8D1;
+    --accent:#4DA3FF; --accent-ink:#04152C; --danger:#FF7A7A; --ok:#5CD6A0;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;
+    padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+  .wrap{max-width:760px;margin:0 auto;padding:28px 20px 56px}
+  header.brand{display:flex;flex-direction:column;gap:2px;margin-bottom:28px}
+  header.brand a{color:var(--text);text-decoration:none;font-weight:700;font-size:1.05rem}
+  header.brand span{color:var(--muted);font-size:.9rem}
+  h1{font-size:clamp(1.7rem,5vw,2.3rem);line-height:1.2;margin:0 0 10px}
+  h2{font-size:1.2rem;margin:0 0 10px}
+  p{margin:0 0 12px}
+  .lead{color:var(--muted);font-size:1.05rem}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;margin-top:20px}
+  ul,ol{margin:0 0 4px;padding-left:1.2rem} li{margin:6px 0}
+  .grid{display:grid;gap:20px;grid-template-columns:1fr}
+  @media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+  .tag{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 10px;border-radius:999px;margin-bottom:8px}
+  .tag.del{background:rgba(255,122,122,.15);color:var(--danger)}
+  .tag.ret{background:rgba(77,163,255,.15);color:var(--accent)}
+  label{display:block;font-weight:600;margin:16px 0 6px;font-size:.95rem}
+  .hint{font-weight:400;color:var(--muted);font-size:.85rem}
+  input,select,textarea{width:100%;padding:12px 14px;border-radius:10px;border:1px solid var(--border);
+    background:var(--surface-2);color:var(--text);font:inherit}
+  input:focus,select:focus,textarea:focus,button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  textarea{min-height:90px;resize:vertical}
+  .check{display:flex;gap:10px;align-items:flex-start;margin-top:18px;font-weight:400}
+  .check input{width:auto;margin-top:5px}
+  button{margin-top:20px;width:100%;padding:14px;border:0;border-radius:12px;background:var(--accent);
+    color:var(--accent-ink);font:inherit;font-weight:700;cursor:pointer}
+  button[disabled]{opacity:.55;cursor:not-allowed}
+  .notice{border-radius:12px;padding:14px 16px;margin-top:16px;font-size:.95rem}
+  .notice.warn{background:rgba(255,196,77,.12);border:1px solid rgba(255,196,77,.5)}
+  .notice.good{background:rgba(92,214,160,.12);border:1px solid rgba(92,214,160,.4)}
+  .notice.bad{background:rgba(255,122,122,.12);border:1px solid rgba(255,122,122,.4)}
+  .err{color:var(--danger);font-size:.85rem;margin-top:4px}
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+  a{color:var(--accent)}
+  footer{margin-top:36px;color:var(--muted);font-size:.85rem;text-align:center}
+  [hidden]{display:none!important}
 </style>
 </head>
 <body>
-<main>
-<h1>ACS DERS CONNECT</h1>
-<h2>Request Account Deletion</h2>
-<p>Students and staff can request deletion of their ACS DERS CONNECT account and associated personal data.</p>
+<div class="wrap">
 
-<h2>How to request deletion</h2>
-<p>Visit the official ACS DERS website to find the institution's contact details. Ask the campus administrator to delete your ACS DERS CONNECT account. Include your app username, but never send your password.</p>
-<p><a href="https://acsders.com/">Visit the official ACS DERS website</a></p>
+  <header class="brand">
+    <a href="/">ACS DERS Campus</a>
+    <span>Learn. Grow. Connect.</span>
+  </header>
 
-<h2>What happens to your data?</h2>
-<p>After verifying your identity, the administrator will review the request and delete eligible account information and personal data.</p>
-<p>Some attendance or academic records may need to be retained for legitimate legal or institutional reasons. The institution should explain what is retained, why, and for how long.</p>
+  <!-- DRAFT BANNER: remains visible until the school confirms its retention policy.
+       After confirmation, change RETENTION_CONFIRMED to true in the script at the bottom. -->
+  <div id="draft-banner" class="notice warn" hidden>
+    <strong>DRAFT &ndash; do not publish yet.</strong> The institution must confirm its
+    data-retention policy before this page goes live.
+  </div>
 
-<h2>Processing your request</h2>
-<p>This page explains how to request deletion. It does not automatically delete an account. The institution must provide a working way to receive and process deletion requests.</p>
+  <main>
+    <h1>Request Account Deletion</h1>
+    <p class="lead">
+      Students, parents/guardians and staff of ACS DERS can ask us to delete an ACS DERS CONNECT
+      account and the personal data linked to it. You do not need to log in to make a request.
+    </p>
 
-<footer><a href="https://acsders.com/">ACS DERS official website</a></footer>
-</main>
+    <section class="card" aria-labelledby="how">
+      <h2 id="how">How to request deletion</h2>
+      <ol>
+        <li>Fill in the request form below. Ask only for what is needed &ndash; never send your password.</li>
+        <li>You will see a reference number only if your request was delivered to the school administrator.</li>
+        <li>The administrator verifies the request (see below). Nothing is deleted before verification.</li>
+        <li>After verification, eligible personal data is deleted by the school administrator, subject to applicable requirements and any justified retention. We will confirm with you when it is done.</li>
+      </ol>
+      <p style="margin-top:12px">Submitting the form does <strong>not</strong> delete anything automatically.</p>
+    </section>
+
+    <section class="card" aria-labelledby="verify">
+      <h2 id="verify">How we verify your identity</h2>
+      <ul>
+        <li><strong>Students under 18:</strong> the request should be made by a parent or guardian. Choose "Parent / guardian of a student" and enter the student's name.</li>
+        <li><strong>Parents / guardians:</strong> we will check the request against the parent/guardian details already held on the school's records, and may contact you or the school office to confirm.</li>
+        <li><strong>Students 18 or older and staff:</strong> we will confirm using the contact details already held on school records.</li>
+        <li>We may ask for additional confirmation. We will never ask for your password.</li>
+      </ul>
+    </section>
+
+    <section class="grid" style="margin-top:20px" aria-label="Data handling">
+      <div class="card" style="margin-top:0">
+        <span class="tag del">Will be deleted</span>
+        <h2>Personal data removed</h2>
+        <ul>
+          <li>The app login account and credentials</li>
+          <li>Profile details held for the app (name, photo, contact details)</li>
+          <li>App preferences and notification/device tokens</li>
+          <li>Content created in the app that is not part of an institutional record</li>
+        </ul>
+        <p class="hint" style="margin-top:8px">Deletion happens after identity verification, subject to applicable requirements and any justified retention.</p>
+      </div>
+      <div class="card" style="margin-top:0">
+        <span class="tag ret">May be retained</span>
+        <h2>Records kept where justified</h2>
+        <ul>
+          <li>Academic, attendance and examination records</li>
+          <li>Fee, payment and accounting records</li>
+          <li>Disciplinary and safeguarding records</li>
+          <li>Staff employment and payroll records</li>
+          <li>Security and audit logs</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="ret-title">
+      <h2 id="ret-title">Data retention</h2>
+      <p>
+        Some records may need to be kept for legal, regulatory or institutional reasons. How long each
+        type of record is kept is set by the institution's records-retention policy. Records that are
+        kept are used only for those purposes and are not used for anything else.
+      </p>
+      <p>
+        If you want to know whether a particular record will be kept and for how long, include this
+        in the notes field of the form and the administrator will tell you when they respond.
+      </p>
+    </section>
+
+    <section class="card" id="request" aria-labelledby="form-title">
+      <h2 id="form-title">Deletion request form</h2>
+      <p class="hint">We collect only what is needed to find the account and contact you. Your request is sent only to the school administrator and is not shown to other users.</p>
+
+      <form id="del-form" novalidate>
+        <label for="requesterType">I am a</label>
+        <select id="requesterType" name="requesterType" required>
+          <option value="">Select&hellip;</option>
+          <option>Student (18 or older)</option>
+          <option>Staff member</option>
+          <option>Parent / guardian of a student</option>
+        </select>
+        <div class="hint">Students under 18: please ask a parent or guardian to submit this request.</div>
+        <div class="err" data-err="requesterType"></div>
+
+        <label for="requesterName">Your full name</label>
+        <input id="requesterName" name="requesterName" type="text" autocomplete="name" maxlength="120" required>
+        <div class="err" data-err="requesterName"></div>
+
+        <div id="holder-wrap" hidden>
+          <label for="accountHolderName">Student's full name</label>
+          <input id="accountHolderName" name="accountHolderName" type="text" maxlength="120">
+          <div class="err" data-err="accountHolderName"></div>
+        </div>
+
+        <label for="identifier">Email, phone number or username of the account</label>
+        <input id="identifier" name="identifier" type="text" maxlength="160" required>
+        <div class="err" data-err="identifier"></div>
+
+        <label for="idno">Admission / staff ID <span class="hint">(optional)</span></label>
+        <input id="idno" name="idno" type="text" maxlength="60">
+        <div class="err" data-err="idno"></div>
+
+        <label for="contact">Your email or phone number <span class="hint">(so we can reach you)</span></label>
+        <input id="contact" name="contact" type="text" maxlength="160" autocomplete="email" required>
+        <div class="err" data-err="contact"></div>
+
+        <label for="notes">Notes <span class="hint">(optional &ndash; do not include passwords or sensitive details)</span></label>
+        <textarea id="notes" name="notes" maxlength="800"></textarea>
+        <div class="err" data-err="notes"></div>
+
+        <div class="hp" aria-hidden="true">
+          <label for="website">Leave this empty</label>
+          <input id="website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <label class="check" for="confirm">
+          <input id="confirm" name="confirm" type="checkbox">
+          <span>I understand the account and linked personal data will be deleted after verification, and that some records may be retained as described above.</span>
+        </label>
+        <div class="err" data-err="confirm"></div>
+
+        <button id="submit" type="submit">Submit deletion request</button>
+        <div id="result" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    &copy; <span id="yr"></span> ACS DERS &middot; <a href="/">Back to ACS DERS CONNECT</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  /* Set to true ONLY after the institution has confirmed its retention policy.
+     While false, a visible DRAFT banner is shown at the top of the page. */
+  var RETENTION_CONFIRMED = false;
+
+  var ENDPOINT = "/api/delete-request";
+  var form = document.getElementById("del-form");
+  var btn = document.getElementById("submit");
+  var result = document.getElementById("result");
+  var started = Date.now();
+
+  document.getElementById("yr").textContent = new Date().getFullYear();
+  document.getElementById("draft-banner").hidden = RETENTION_CONFIRMED;
+
+  var typeSel = document.getElementById("requesterType");
+  var holderWrap = document.getElementById("holder-wrap");
+  typeSel.addEventListener("change", function () {
+    holderWrap.hidden = typeSel.value !== "Parent / guardian of a student";
+  });
+
+  function clearErrors() {
+    result.className = ""; result.textContent = "";
+    var errs = form.querySelectorAll("[data-err]");
+    for (var i = 0; i < errs.length; i++) errs[i].textContent = "";
+  }
+  function fieldError(name, msg) {
+    var el = form.querySelector('[data-err="' + name + '"]');
+    if (el) el.textContent = msg;
+  }
+  function show(type, msg) {
+    result.className = "notice " + type;
+    result.textContent = msg;
+  }
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    clearErrors();
+
+    var payload = {
+      requesterType: form.requesterType.value,
+      requesterName: form.requesterName.value,
+      accountHolderName: form.accountHolderName.value,
+      identifier: form.identifier.value,
+      idno: form.idno.value,
+      contact: form.contact.value,
+      notes: form.notes.value,
+      website: form.website.value,
+      confirm: form.confirm.checked,
+      elapsedMs: Date.now() - started
+    };
+
+    btn.disabled = true;
+    btn.textContent = "Sending\u2026";
+
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload)
+    }).then(function (r) {
+      return r.json().catch(function () { return {}; }).then(function (data) {
+        return { status: r.status, data: data };
+      });
+    }).then(function (res) {
+      var d = res.data || {};
+      if (res.status === 200 && d.ok === true && d.reference) {
+        form.reset();
+        holderWrap.hidden = true;
+        started = Date.now();
+        show("good", "Your request was delivered to the school administrator. Reference: " + d.reference +
+          ". Nothing has been deleted yet \u2013 we will verify your identity first and contact you.");
+      } else if (res.status === 400 && d.error === "validation" && d.fields) {
+        for (var k in d.fields) { if (Object.prototype.hasOwnProperty.call(d.fields, k)) fieldError(k, d.fields[k]); }
+        show("bad", "Please correct the highlighted fields. Your request was NOT sent.");
+      } else if (res.status === 400) {
+        show("bad", "Your request could not be accepted. Please wait a few seconds, check the form and try again. It was NOT sent.");
+      } else if (res.status === 429) {
+        show("bad", "Too many requests from this connection. Please try again later. Your request was NOT sent.");
+      } else if (res.status === 503) {
+        show("bad", "The request service is not available right now. Your request was NOT sent. Please try again later or contact the school office.");
+      } else {
+        show("bad", "Your request could not be delivered. It was NOT sent. Please try again later or contact the school office.");
+      }
+    }).catch(function () {
+      show("bad", "Could not reach the server. Your request was NOT sent. Please check your connection and try again.");
+    }).then(function () {
+      btn.disabled = false;
+      btn.textContent = "Submit deletion request";
+    });
+  });
+})();
+</script>
 </body>
 </html>
